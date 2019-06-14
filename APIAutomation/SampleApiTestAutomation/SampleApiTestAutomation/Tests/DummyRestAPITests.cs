@@ -10,17 +10,14 @@ using System.Xml;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using SampleApiTestAutomation.Models;
+using SampleApiTestAutomation.Initialization;
 
 namespace SampleApiTestAutomation
 {
     [TestClass]
-    public class DummyRestAPITests
+    public class DummyRestAPITests : AssemblySetUp
     {
-        private HttpClient httpClient = new HttpClient()
-        {
-            BaseAddress = new Uri(ConfigurationManager.AppSettings["DummyAPIUri"])
-        };
-
         [TestMethod]
         [Description("Verify HTTP GET API, response for Get API")]
         public void GetEmployeeDetails()
@@ -122,22 +119,5 @@ namespace SampleApiTestAutomation
             var getDeletedEmployeeDetails = httpClient.GetAsync("api/v1/employee/" + employeeDetails.id).Result;
             getDeletedEmployeeDetails.Content.ReadAsStringAsync().Result.Should().Be("false");
         }
-    }
-
-    class Employee
-    {
-        public string id { get; set; }
-        public string employee_name { get; set; }
-        public string employee_salary { get; set; }
-        public string employee_age { get; set; }
-        public string profile_image { get; set; }
-    }
-
-    class CreateUpdateEmployee
-    {
-        public string id { get; set; }
-        public string name { get; set; }
-        public string salary { get; set; }
-        public string age { get; set; }
     }
 }
